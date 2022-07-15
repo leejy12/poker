@@ -1,11 +1,13 @@
 package com.example.poker
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +21,7 @@ class LobbyActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var tables: ArrayList<Table>
     private lateinit var tableAdapter: TableAdapter
+    private lateinit var createbutton : Button
 
     private fun getTables() {
         val queue = Volley.newRequestQueue(this)
@@ -68,5 +71,10 @@ class LobbyActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.tablesRecyclerView)
         tables = ArrayList()
         getTables()
+        createbutton = findViewById(R.id.createroombutton)
+        createbutton.setOnClickListener{
+            val intent = Intent(this@LobbyActivity, CreateTableActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
