@@ -21,7 +21,6 @@ class SliderAdapter(private val sliderItems: List<SliderItem>, private val viewP
             )
         )
     }
-
     override fun onBindViewHolder(holder: SliderViewHolder, position: Int) {
         holder.setImage(sliderItems[position])
     }
