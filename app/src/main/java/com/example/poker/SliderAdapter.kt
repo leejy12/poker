@@ -32,6 +32,7 @@ class SliderAdapter(private val sliderItems: List<SliderItem>, private val viewP
 
     inner class SliderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val imageView: RoundedImageView
+
         fun setImage(sliderItem: SliderItem) {
             imageView.setImageResource(sliderItem.image)
         }

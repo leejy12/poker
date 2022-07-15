@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var ImgView: ImageView
     lateinit var recview: RecyclerView
     lateinit var Develop: TextView
+    lateinit var startbutton : Button
     lateinit var listener: RecyclerViewClickListener
     lateinit var viewPager2: ViewPager2
     lateinit var SliderAdapter: SliderAdapter
@@ -28,6 +30,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewPager2 = findViewById(R.id.viewPagerImageSlider)
+        SliderItems.add(SliderItem(R.drawable.poker))
+        SliderItems.add(SliderItem(R.drawable.poker))
+        SliderItems.add(SliderItem(R.drawable.poker))
         SliderItems.add(SliderItem(R.drawable.poker))
         SliderAdapter = SliderAdapter(SliderItems,viewPager2)
         viewPager2.adapter = SliderAdapter
@@ -44,13 +49,11 @@ class MainActivity : AppCompatActivity() {
             }
         })
         viewPager2.setPageTransformer(compositePageTransformer)
-        initslideViewListener()
-    }
-    private fun initslideViewListener(){
-        listener = object : RecyclerViewClickListener {
-            override fun onClick(view: View, position: Int) {
-                val intent = Intent(this@MainActivity, LobbyActivity::class.java)
-                startActivity(intent)
+        startbutton = findViewById(R.id.startbutton)
+        startbutton.setOnClickListener{
+            val intent = Intent(this@MainActivity, LobbyActivity::class.java)
+            startActivity(intent)
+        }
     }
 
 }
