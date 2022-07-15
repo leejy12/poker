@@ -30,7 +30,6 @@ class TopFragment: Fragment() {
         registerButton = view.findViewById<Button>(R.id.toRegisterButton)
         myInfoButton = view.findViewById<Button>(R.id.toMyInfoButton)
         logoutButton = view.findViewById<Button>(R.id.toLogoutButton)
-
         // set up listeners
         loginButton.setOnClickListener{
             val intent = Intent(activity, LoginActivity::class.java)
