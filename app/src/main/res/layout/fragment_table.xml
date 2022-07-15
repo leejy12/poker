@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:layout_marginHorizontal="15dp"
+    android:layout_marginVertical="5dp"
+    android:padding="15dp"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="10dp"
+    >
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+       >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="60dp"
+                android:layout_weight="1"
+                android:id="@+id/photo"
+                android:src="@drawable/ic_baseline_meeting_room_24"
+                android:layout_margin="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:id="@+id/displayname"
+                android:text="이름"
+                android:textSize="17dp"
+                android:gravity="center"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/photo"
+                />
+
+            <TextView
+                android:id="@+id/currentpeople"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:textSize="17dp"
+                android:paddingTop="30dp"
+                android:paddingLeft="50dp"
+                app:layout_constraintLeft_toRightOf="@+id/displayname"
+                />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:textSize="17dp"
+                android:text="/"
+                android:textStyle="bold"
+                android:gravity="center"
+                app:layout_constraintLeft_toRightOf="@+id/displayname"/>
+            <TextView
+                android:id="@+id/maxpeople"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:textSize="17dp"
+                android:paddingTop="30dp"
+                android:paddingLeft="50dp"
+                app:layout_constraintLeft_toRightOf="@+id/displayname"
+                />
+
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>
