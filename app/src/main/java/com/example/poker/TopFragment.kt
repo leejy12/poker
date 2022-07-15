@@ -12,6 +12,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import com.android.volley.Request
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 import com.example.poker.Data.ResponseType
 import retrofit2.Callback
 import retrofit2.Response
@@ -48,7 +51,24 @@ class TopFragment: Fragment() {
         }
 
         logoutButton.setOnClickListener {
+            val url = "${IP.getIP()}/player/logout/name/${Global.currentPlayerName}"
+            val queue = Volley.newRequestQueue(activity)
 
+            val stringRequest = StringRequest(
+                Request.Method.POST,
+                url,
+                { response ->
+                    if (response == "0") {
+                        Log.d("logout-response", response)
+                        Global.currentPlayerName = null
+                        requireActivity().recreate()
+                    }
+                },
+                { error -> Log.d("why?", error.message.toString()) }
+            )
+
+            stringRequest.setShouldCache(false)
+            queue.add(stringRequest)
         }
 
         if (Global.currentPlayerName != null) {
