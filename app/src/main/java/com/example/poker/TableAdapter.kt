@@ -41,8 +41,6 @@ class TableAdapter(private val itemList: ArrayList<Table>) : RecyclerView.Adapte
             tableName?.text = table.tableName
             maxPlayers?.text = table.maxPlayers.toString()
             curPlayers?.text = table.currentPlayers.toString()
-            println("Bind ${table.maxPlayers.toString()}")
-            println("Bind ${table.currentPlayers.toString()}")
 
             cardView?.setOnClickListener {
                 listener?.onCardViewClick(itemView, table, adapterPosition)

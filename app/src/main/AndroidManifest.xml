@@ -25,7 +25,7 @@
             android:name=".PokerActivity"
             android:exported="false" />
         <activity
-            android:name=".InTableactivity"
+            android:name=".InTableActivity"
             android:exported="false" />
         <activity
             android:name=".SignupActivity"
