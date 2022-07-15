@@ -10,12 +10,13 @@
         android:layout_height="match_parent"
         android:background="@drawable/profileback"
         android:alpha="0.3"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="0dp"
-        >
+        tools:layout_editor_absoluteY="0dp" >
+
         <LinearLayout
             android:id="@+id/profile"
             android:layout_width="match_parent"
@@ -32,7 +33,6 @@
 
         </LinearLayout>
 
-
         <LinearLayout
             android:id="@+id/nameLinearLayout"
             android:layout_width="match_parent"
@@ -45,7 +45,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="name"
+                android:text="Name"
                 android:textStyle="bold" />
 
             <TextView
@@ -56,6 +56,7 @@
                 android:gravity="center"
                 android:text="세글자"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
         <GridLayout
@@ -80,22 +81,22 @@
                 android:layout_width="0dp"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
+                android:id="@+id/chipCount"
                 android:gravity="center"
                 android:text="200"
                 android:textStyle="bold" />
 
 
             <TextView
-                android:id="@+id/win"
                 android:layout_width="0dp"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
                 android:gravity="center"
-                android:text="Max money earned at once"
+                android:text="Largest Pot Won"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/lose"
+                android:id="@+id/bestWin"
                 android:layout_width="0dp"
                 android:layout_rowWeight="1"
                 android:layout_columnWeight="1"
