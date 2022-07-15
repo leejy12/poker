@@ -22,11 +22,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0"
         >
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rc_view"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPagerImageSlider"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:layout_height="match_parent"
+            android:paddingStart="80dp"
+            android:paddingEnd="80dp"
             />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <ImageView
@@ -36,6 +37,7 @@
         app:layout_constraintTop_toBottomOf="@id/top_fragment"
         android:src="@drawable/poker"
         android:gravity="center"
+        android:visibility="gone"
         />
     <TextView
         android:id="@+id/develop"
