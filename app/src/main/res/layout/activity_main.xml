@@ -6,13 +6,46 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/top_fragment"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:name="com.example.poker.TopFragment"
+        tools:layout="@layout/fragment_top"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refreshList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/top_fragment"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintVertical_bias="0"
+        >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rc_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <ImageView
+        android:id="@+id/ImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintTop_toBottomOf="@id/top_fragment"
+        android:src="@drawable/poker"
+        android:gravity="center"
+        />
+    <TextView
+        android:id="@+id/develop"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center"
+        android:textSize="15dp"
+        android:text="Developer : 정영훈 , 이준영"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
