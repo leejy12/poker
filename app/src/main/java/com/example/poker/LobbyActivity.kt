@@ -15,50 +15,6 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.Volley
 
-class Table(val tableId: String, val tableName: String, val maxPlayers: Int, val currentPlayers: Int)
-
-class TableAdapter(private val itemList: ArrayList<Table>) : RecyclerView.Adapter<TableAdapter.Holder>() {
-    interface OnItemClickListener {
-        fun onCardViewClick(view: View, table: Table, pos: Int)
-    }
-
-    private var listener: OnItemClickListener? = null
-
-    fun setOnItemClickListener(listener: OnItemClickListener) {
-        this.listener = listener
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_table, parent, false)
-        return Holder(view)
-    }
-
-    override fun onBindViewHolder(holder: TableAdapter.Holder, position: Int) {
-        holder.bind(itemList[position])
-    }
-
-    override fun getItemCount(): Int {
-        return itemList.size
-    }
-
-    inner class Holder(itemView: View?) : RecyclerView.ViewHolder(itemView!!) {
-        private val tableName = itemView?.findViewById<TextView>(R.id.tableName)
-        private val maxPlayers = itemView?.findViewById<TextView>(R.id.maxpeople)
-        private val curPlayers = itemView?.findViewById<TextView>(R.id.currentpeople)
-        private val cardView = itemView?.findViewById<CardView>(R.id.tableCardView)
-
-        fun bind(table: Table) {
-            tableName?.text = table.tableName
-            maxPlayers?.text = table.maxPlayers.toString()
-            curPlayers?.text = table.currentPlayers.toString()
-
-            cardView?.setOnClickListener {
-                listener?.onCardViewClick(itemView, table, adapterPosition)
-            }
-        }
-    }
-}
-
 class LobbyActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var tables: ArrayList<Table>
@@ -79,6 +35,10 @@ class LobbyActivity : AppCompatActivity() {
                     val tableName = tableObj.getString("tableName")
                     val maxPlayers = tableObj.getInt("maxPlayers")
                     val currentPlayers = tableObj.getInt("currentPlayers")
+                    println(tableId)
+                    println(tableName)
+                    println(maxPlayers)
+                    println(currentPlayers)
                     tables.add(Table(tableId, tableName, maxPlayers, currentPlayers))
                 }
 
