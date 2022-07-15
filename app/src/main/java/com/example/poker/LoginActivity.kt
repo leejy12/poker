@@ -1,122 +1,63 @@
 package com.example.poker
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
-import com.example.poker.Data.ResponseType
-import com.example.poker.Data.UserLoginRequest
-import retrofit2.Call
-import java.io.IOException
+import com.android.volley.Request
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
 
 class LoginActivity : AppCompatActivity() {
-    private val TAG: String = this.javaClass.simpleName
-    private var mBinding: ActivityLoginBinding? = null
-    private val binding get() = mBinding!!
+    private lateinit var loginButton: Button
+    private lateinit var loginNameEditText: EditText
+    private lateinit var passwordEditText: EditText
+    private lateinit var queue: RequestQueue
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_login)
 
-        initBinding()
-        initListeners()
-    }
+        loginButton = findViewById(R.id.loginButton)
+        loginNameEditText = findViewById(R.id.loginName)
+        passwordEditText = findViewById(R.id.loginPW)
 
-    private fun initBinding() {
-        mBinding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-    }
+        loginButton.setOnClickListener {
+            val name: String = loginNameEditText.text.toString()
+            val password: String = passwordEditText.text.toString()
 
-    private fun initListeners() {
-        // --------------------------------- 로그인 버튼 -------------------------------------------
-        binding.loginButton.setOnClickListener {
-            val userName = binding.loginId.text.toString()
-            val password = binding.loginPW.text.toString()
-
-            if(userName == "" || password == "") {
-                Toast.makeText(this@LoginActivity, "빈 칸이 있습니다.", Toast.LENGTH_LONG).show()
+            if (name.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Check your input!", Toast.LENGTH_SHORT).show()
             }
+            else {
+                println("name: $name")
+                println("password: $password")
+                val url = "${IP.getIP()}/player/login/name/$name/password/$password"
+                println(url)
+                queue = Volley.newRequestQueue(this)
 
-            localLogin(userName, password)
-        }
+                val stringRequest = StringRequest(Request.Method.POST,
+                    url,
+                    { response ->
+                        println(response)
+                        if (response == "0") {
+                            // 로그인 성공
+                            Global.currentPlayerName = name
+                            finish()
+                        }
+                        else {
+                            // 로그인 실패
+                            Toast.makeText(this, "Incorrect name or password!", Toast.LENGTH_SHORT).show()
+                        }
+                    },
+                    { error -> {}}
+                )
 
-        binding.registerButton.setOnClickListener{
-            val intent = Intent(this@LoginActivity, SignupActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-    }
-
-    private fun localLogin(userName: String, password: String) {
-        val call: Call<ResponseType<Int>> =
-            ServiceCreator.userService.postLogin(UserLoginRequest(userName, password))
-
-        Log.d(TAG, "local Login is Executed")
-        login(call)
-    }
-
-    private fun login(call: Call<ResponseType<Int>>) {
-        var loginFlag = false
-
-        val thread = Thread {
-            try {
-                Global.currentUserId = call.execute().body()?.data
-                Log.d(TAG, "currentId: ${Global.currentUserId}")
-                loginFlag = true
-
-            } catch(e: IOException) {
-                loginFlag = false
+                stringRequest.setShouldCache(false)
+                queue.add(stringRequest)
             }
         }
-        thread.start()
-
-        try {
-            thread.join()
-            Log.d(TAG, "$loginFlag")
-            if(loginFlag) {
-                setJwt()
-
-                Global.socket?.connect()
-                Global.socket?.emit("login", Global.currentUserId)
-            }
-        } catch(e: Exception){
-            e.printStackTrace()
-        }
-    }
-
-    private fun setJwt() {
-        Log.d(TAG, "before setJwt, currentId: ${Global.currentUserId}")
-        val call: Call<ResponseType<String>> =
-            ServiceCreator.jwtService.setJwt(Global.headers, JwtRequest(Global.currentUserId!!))
-
-        var flag = false
-        val thread = Thread {
-            try {
-                val token: String? = call.execute().body()?.data
-                Log.d(TAG, "token: ${token}")
-                PreferenceManager.setString(this@LoginActivity, "JWT", token!!)
-                Global.headers["token"] = token
-                flag = true
-            } catch(e: IOException) {
-                e.printStackTrace()
-            }
-        }
-        thread.start()
-
-        try {
-            thread.join()
-            Log.d(TAG, "$flag")
-            if(flag) {
-                val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                startActivity(intent)
-            }
-        } catch(e: Exception){
-            e.printStackTrace()
-        }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        mBinding = null
     }
 }

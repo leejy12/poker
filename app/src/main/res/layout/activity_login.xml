@@ -18,26 +18,24 @@
             android:id="@+id/loginIdLinearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/black_topline"
-            >
+            android:background="@drawable/black_topline">
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:text="ID"
-                android:textStyle="bold"
-                />
+                android:text="Name"
+                android:textStyle="bold" />
 
             <EditText
-                android:id="@+id/loginId"
+                android:id="@+id/loginName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:textStyle="bold"
-                android:paddingHorizontal="10dp"
-                />
+                android:paddingHorizontal="10dp" />
+
         </LinearLayout>
 
         <LinearLayout
@@ -63,34 +61,25 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
                 android:textStyle="bold"
-                android:paddingHorizontal="10dp"
-                />
+                android:inputType="textPassword"
+                android:paddingHorizontal="10dp" />
+
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/loginRegisterLayout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_below="@id/loginPasswordLinearLayout"
-            >
+            android:layout_below="@id/loginPasswordLinearLayout">
+
             <Button
                 android:id="@+id/loginButton"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:layout_marginEnd="5dp"
                 android:layout_weight="1"
                 android:text="로그인"
-                android:textStyle="bold"
-                android:layout_marginEnd="5dp"
-                />
-
-            <Button
-                android:id="@+id/registerButton"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:textStyle="bold"
-                android:text="회원가입"
-                />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
