@@ -54,6 +54,12 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this@MainActivity, LobbyActivity::class.java)
             startActivity(intent)
         }
+        if (Global.currentPlayerName != null){
+            startbutton.visibility =  View.VISIBLE
+        }
+        else{
+            startbutton.visibility =  View.GONE
+        }
     }
 
 }

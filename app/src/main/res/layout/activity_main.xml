@@ -18,7 +18,8 @@
         app:layout_constraintTop_toBottomOf="@id/top_fragment"
         android:id="@+id/viewPagerImageSlider"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/startbutton"
         android:paddingStart="80dp"
         android:paddingEnd="80dp" />
     <Button
@@ -27,6 +28,7 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/develop"
         android:layout_width="match_parent"
+        android:visibility="gone"
         android:layout_height="70dp"/>
     <ImageView
         android:id="@+id/ImageView"
