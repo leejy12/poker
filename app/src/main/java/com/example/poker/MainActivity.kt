@@ -16,12 +16,10 @@ import com.example.poker.Data.User
 class MainActivity : AppCompatActivity() {
     private val TAG = this::class.java.simpleName
     lateinit var list: MutableList<User>
-    lateinit var recyclerViewAdapter: RecyclerViewAdapter
     lateinit var ImgView: ImageView
     lateinit var recview: RecyclerView
     lateinit var Develop: TextView
     lateinit var startbutton : Button
-    lateinit var listener: RecyclerViewClickListener
     lateinit var viewPager2: ViewPager2
     lateinit var SliderAdapter: SliderAdapter
     private val SliderItems = mutableListOf<SliderItem>()
