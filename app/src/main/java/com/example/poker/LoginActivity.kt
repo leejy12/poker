@@ -1,7 +1,9 @@
 package com.example.poker
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -45,6 +47,8 @@ class LoginActivity : AppCompatActivity() {
                         if (response == "0") {
                             // 로그인 성공
                             Global.currentPlayerName = name
+                            val start = Intent(this, MainActivity::class.java)
+                            startActivity(start)
                             finish()
                         }
                         else {
@@ -52,7 +56,7 @@ class LoginActivity : AppCompatActivity() {
                             Toast.makeText(this, "Incorrect name or password!", Toast.LENGTH_SHORT).show()
                         }
                     },
-                    { error -> {}}
+                    { error -> Log.d("why?", error.message.toString()) }
                 )
 
                 stringRequest.setShouldCache(false)
