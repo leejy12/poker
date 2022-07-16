@@ -10,18 +10,22 @@ import android.view.View
 import com.example.poker.R
 import com.makeramen.roundedimageview.RoundedImageView
 
-class SliderAdapter(private val sliderItems: List<SliderItem>, private val viewPager2: ViewPager2) :
-    RecyclerView.Adapter<SliderViewHolder>() {
+class SliderAdapter(private val sliderItems: List<SliderItem>) : RecyclerView.Adapter<SliderViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SliderViewHolder {
-        return SliderViewHolder(
-            LayoutInflater.from(parent.context).inflate(
-                R.layout.slide_item_container,
-                parent,
-                false
-            )
-        )
+        val v =  LayoutInflater.from(parent.context).inflate(R.layout.slide_item_container, parent, false)
+        return SliderViewHolder(v)
     }
+    interface ItemClick
+    {
+        fun onClick(view: View, position: Int)
+    }
+    var itemClick: ItemClick? = null
     override fun onBindViewHolder(holder: SliderViewHolder, position: Int) {
+        if(itemClick!=null){
+            holder?.itemView?.setOnClickListener{ v->
+                itemClick!!.onClick(v, position)
+            }
+        }
         holder.setImage(sliderItems[position])
     }
 
