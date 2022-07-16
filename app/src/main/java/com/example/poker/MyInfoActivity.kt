@@ -16,7 +16,6 @@ class MyInfoActivity : AppCompatActivity() {
         val nameTextView = findViewById<TextView>(R.id.name)
         val chipCountTextView = findViewById<TextView>(R.id.chipCount)
         val bestWinTextView = findViewById<TextView>(R.id.bestWin)
-
         val queue = Volley.newRequestQueue(this)
         val url = "${IP.getIP()}/player/name/${Global.currentPlayerName}"
 
