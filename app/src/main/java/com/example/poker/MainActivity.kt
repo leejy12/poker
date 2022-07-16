@@ -28,12 +28,24 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewPager2 = findViewById(R.id.viewPagerImageSlider)
-        SliderItems.add(SliderItem(R.drawable.poker))
-        SliderItems.add(SliderItem(R.drawable.poker))
-        SliderItems.add(SliderItem(R.drawable.poker))
-        SliderItems.add(SliderItem(R.drawable.poker))
-        SliderAdapter = SliderAdapter(SliderItems,viewPager2)
+        SliderItems.add(SliderItem(R.drawable.poker, 1))
+        SliderItems.add(SliderItem(R.drawable.poker,2))
+        SliderItems.add(SliderItem(R.drawable.poker,3))
+        SliderItems.add(SliderItem(R.drawable.poker,4))
+        SliderAdapter = SliderAdapter(SliderItems)
         viewPager2.adapter = SliderAdapter
+        SliderAdapter.itemClick = object : SliderAdapter.ItemClick{
+            override fun onClick(view: View, position: Int) {
+                if(SliderItems[position].num == 1){
+                    val intent= Intent(this@MainActivity, StartIndianPokerActivity::class.java)
+                    startActivity(intent)
+                }
+                else if(SliderItems[position].num == 2){
+                    val intent= Intent(this@MainActivity, SlotActivity::class.java)
+                    startActivity(intent)
+                }
+            }
+        }
         viewPager2.clipToPadding= false
         viewPager2.clipChildren = false
         viewPager2.offscreenPageLimit = 3
@@ -46,18 +58,19 @@ class MainActivity : AppCompatActivity() {
                 page.scaleY = 0.85f + r *  0.15f
             }
         })
+        SliderAdapter.notifyDataSetChanged()
         viewPager2.setPageTransformer(compositePageTransformer)
         startbutton = findViewById(R.id.startbutton)
-        startbutton.setOnClickListener{
-            val intent = Intent(this@MainActivity, LobbyActivity::class.java)
-            startActivity(intent)
-        }
-        if (Global.currentPlayerName != null){
-            startbutton.visibility =  View.VISIBLE
-        }
-        else{
-            startbutton.visibility =  View.GONE
-        }
+//        startbutton.setOnClickListener{
+//            val intent = Intent(this@MainActivity, LobbyActivity::class.java)
+//            startActivity(intent)
+//        }
+//        if (Global.currentPlayerName != null){
+//            startbutton.visibility =  View.VISIBLE
+//        }
+//        else{
+//            startbutton.visibility =  View.GONE
+//        }
     }
 
 }

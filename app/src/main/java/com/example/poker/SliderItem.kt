@@ -1,3 +1,7 @@
 package com.example.poker
 
-class SliderItem(val image: Int)
+import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
+import java.util.*
+
+data class SliderItem(val image: Int, val num: Int )
