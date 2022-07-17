@@ -47,10 +47,8 @@ class SlotActivity : AppCompatActivity(), IEventEnd {
         )
         jsonArrayRequest.setShouldCache(false)
         queue.add(jsonArrayRequest)
-        println("abcabcabcabc : $abc ")
-        up.setOnClickListener{
-            if(abc>=50)
-            {
+        up.setOnClickListener {
+            if (abc >= 50) {
                 up.visibility = View.GONE
                 down.visibility = View.VISIBLE
                 image1.setValueRandom(nextInt(7),
@@ -74,16 +72,17 @@ class SlotActivity : AppCompatActivity(), IEventEnd {
                 stringRequest.setShouldCache(false)
                 queue.add(stringRequest)
             }
-            else{
+            else {
                 Toast.makeText(this, "You do not have enough money", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     override fun eventEnd(result: Int, count: Int) {
-        if(count_down<2)
+        if (count_down < 2) {
             count_down++
-        else{
+        }
+        else {
             down.visibility = View.GONE
             up.visibility = View.VISIBLE
             count_down = 0
@@ -104,7 +103,7 @@ class SlotActivity : AppCompatActivity(), IEventEnd {
                 stringRequest.setShouldCache(false)
                 queue.add(stringRequest)
             }
-            else if(image1.value == image2.value ||image2.value == image3.value || image1.value == image3.value){
+            else if (image1.value == image2.value || image2.value == image3.value || image1.value == image3.value) {
                 Toast.makeText(this, "You win small prize", Toast.LENGTH_SHORT).show()
                 abc += 100
                 val url3 = "${IP.getIP()}/player/name/${Global.currentPlayerName}/chip/$abc"
@@ -121,7 +120,7 @@ class SlotActivity : AppCompatActivity(), IEventEnd {
                 stringRequest.setShouldCache(false)
                 queue.add(stringRequest)
             }
-            else{
+            else {
                 Toast.makeText(this, "You lose", Toast.LENGTH_SHORT).show()
             }
         }

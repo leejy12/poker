@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         SliderAdapter.itemClick = object : SliderAdapter.ItemClick{
             override fun onClick(view: View, position: Int) {
                 if(SliderItems[position].num == 1){
-                    val intent= Intent(this@MainActivity, StartIndianPokerActivity::class.java)
+                    val intent= Intent(this@MainActivity, PokerActivity::class.java)
                     startActivity(intent)
                 }
                 else if(SliderItems[position].num == 2){
