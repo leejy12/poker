@@ -7,7 +7,9 @@
     android:background="@drawable/poker_table_background"
     tools:context=".PokerActivity">
 
+
     <TextView
+        android:id="@+id/opName"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="40dp"
@@ -19,6 +21,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/opStack"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginTop="20dp"
@@ -31,8 +34,8 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="76dp"
-        android:layout_height="112dp"
+        android:layout_width="80dp"
+        android:layout_height="120dp"
         android:layout_marginTop="80dp"
         android:background="@drawable/card_front"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,23 +44,39 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/opCard"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:gravity="center_vertical"
         android:text="card"
-        android:textSize="24sp"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="@+id/imageView"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toTopOf="@+id/imageView" />
 
+
     <ImageView
-        android:layout_width="76dp"
-        android:layout_height="112dp"
+        android:id="@+id/myCardPaper"
+        android:layout_width="80dp"
+        android:layout_height="120dp"
         android:background="@drawable/card_back"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/myCard"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:text="card"
+        android:textSize="30sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/myCardPaper"
+        app:layout_constraintEnd_toEndOf="@+id/myCardPaper"
+        app:layout_constraintStart_toStartOf="@+id/myCardPaper"
+        app:layout_constraintTop_toTopOf="@+id/myCardPaper" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -67,6 +86,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
+            android:id="@+id/myStack"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -74,23 +94,48 @@
             android:text="stack" />
 
         <Button
+            android:id="@+id/raiseBtn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_margin="4dp"
-            android:text="BET" />
+            android:text="RAISE" />
 
         <Button
+            android:id="@+id/checkCallBtn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_margin="4dp"
             android:text="CALL " />
 
         <Button
+            android:id="@+id/foldBtn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_margin="4dp"
             android:text="FOLD" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/opBet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="32sp"
+        android:layout_marginTop="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+
+    <TextView
+        android:id="@+id/myBet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textSize="32sp"
+        android:layout_marginBottom="60dp"
+        app:layout_constraintBottom_toTopOf="@+id/myCardPaper"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
