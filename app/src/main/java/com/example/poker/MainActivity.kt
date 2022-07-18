@@ -28,9 +28,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         viewPager2 = findViewById(R.id.viewPagerImageSlider)
-        SliderItems.add(SliderItem(R.drawable.poker, 1))
-        SliderItems.add(SliderItem(R.drawable.poker,2))
-        SliderItems.add(SliderItem(R.drawable.poker,3))
+        if (Global.currentPlayerName != null) {
+            viewPager2.visibility = View.VISIBLE
+        }
+        else {
+            viewPager2.visibility = View.GONE
+        }
+        SliderItems.add(SliderItem(R.drawable.indian, 1))
+        SliderItems.add(SliderItem(R.drawable.slot,2))
+        SliderItems.add(SliderItem(R.drawable.roulette,3))
         SliderItems.add(SliderItem(R.drawable.poker,4))
         SliderAdapter = SliderAdapter(SliderItems)
         viewPager2.adapter = SliderAdapter

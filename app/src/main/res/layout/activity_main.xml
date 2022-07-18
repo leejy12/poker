@@ -14,6 +14,8 @@
         tools:layout="@layout/fragment_top"
         app:layout_constraintTop_toTopOf="parent"
         />
+
+
     <androidx.viewpager2.widget.ViewPager2
         app:layout_constraintTop_toBottomOf="@id/top_fragment"
         android:id="@+id/viewPagerImageSlider"
@@ -21,7 +23,9 @@
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="@id/startbutton"
         android:paddingStart="80dp"
-        android:paddingEnd="80dp" />
+        android:paddingEnd="80dp"
+        android:visibility="gone"
+        />
     <Button
         android:id="@+id/startbutton"
         android:text="GAME START"

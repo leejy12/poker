@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import androidx.viewpager2.widget.ViewPager2
 import com.android.volley.Request
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -76,6 +77,7 @@ class TopFragment: Fragment() {
             registerButton.visibility = View.GONE
             myInfoButton.visibility = View.VISIBLE
             logoutButton.visibility = View.VISIBLE
+
         }
         else {
             loginButton.visibility = View.VISIBLE
