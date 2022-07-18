@@ -44,6 +44,10 @@ class MainActivity : AppCompatActivity() {
                     val intent= Intent(this@MainActivity, SlotActivity::class.java)
                     startActivity(intent)
                 }
+                else if(SliderItems[position].num == 3){
+                    val intent= Intent(this@MainActivity, RouletteActivity::class.java)
+                    startActivity(intent)
+                }
             }
         }
         viewPager2.clipToPadding= false
