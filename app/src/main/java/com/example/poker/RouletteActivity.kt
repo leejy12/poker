@@ -1,4 +1,5 @@
 package com.example.poker
+import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -12,8 +13,11 @@ import androidx.appcompat.app.AlertDialog
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.material.slider.Slider
 import kotlinx.android.synthetic.main.activity_roulette.*
+import kotlinx.android.synthetic.main.activity_slot.*
 
 class RouletteActivity : AppCompatActivity() ,Animation.AnimationListener{
 
@@ -31,7 +35,11 @@ class RouletteActivity : AppCompatActivity() ,Animation.AnimationListener{
     var infoText: TextView? = null
     var prizeText = "N/A"
     var finalselection = ""
-
+    lateinit var BetDlg: Dialog
+    var betmoney=0
+    var correct=0
+    var prizeIndex =0.0
+    var arrlength = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_roulette)
@@ -61,6 +69,43 @@ class RouletteActivity : AppCompatActivity() ,Animation.AnimationListener{
         BetBtn?.setOnClickListener{
             showBet()
         }
+        BetCoinBtn = findViewById(R.id.BetcoinBtn)
+        BetDlg= Dialog(this)
+        BetDlg.setContentView(R.layout.wheelbet)
+        val slider2 = BetDlg.findViewById<Slider>(R.id.Betslider)
+        slider2.stepSize = 10f
+
+        val BetAmount = BetDlg.findViewById<TextView>(R.id.BetAmount)
+        val confirmBetBtn = BetDlg.findViewById<Button>(R.id.confirmBetBtn)
+        slider2.addOnChangeListener{_, value, _ -> BetAmount.text = value.toInt().toString()}
+        BetCoinBtn?.setOnClickListener{
+            slider2.valueFrom = 0f
+            slider2.valueTo = abc.toFloat()
+            slider2.value = slider2.valueFrom
+            BetDlg.show()
+        }
+        confirmBetBtn.setOnClickListener{
+            BetDlg.dismiss()
+            BetBtn?.isEnabled = false
+            BetCoinBtn?.isEnabled = false
+            powerButton?.isEnabled = true
+            betmoney=slider2.value.toInt()
+            abc-=betmoney
+            val url5 = "${IP.getIP()}/player/name/${Global.currentPlayerName}/chip/$abc"
+            queue = Volley.newRequestQueue(this)
+            val stringRequest = StringRequest(Request.Method.POST,
+                url5,
+                { response ->
+                    if (response == "0") {
+                        roulettechip.text = abc.toString()
+                    }
+                },
+                { error -> Log.d("why?", error.message.toString()) }
+            )
+            stringRequest.setShouldCache(false)
+            queue.add(stringRequest)
+        }
+
 
     }
 
@@ -80,21 +125,31 @@ class RouletteActivity : AppCompatActivity() ,Animation.AnimationListener{
         }
         builder.setPositiveButton("OK"){
             p0, p1 ->
-            finalselection=""
+            finalselection = ""
+            var firstnum=0
             for(item:String in selectednumber){
-                finalselection= finalselection +item
+                if(firstnum == 0){
+                    finalselection=item
+                }
+                else{
+                    finalselection= finalselection +","+item
+                }
+                firstnum+=1
             }
             BetBtn?.isEnabled = false
-            powerButton?.isEnabled = true
+            BetCoinBtn?.isEnabled = true
+            powerButton?.isEnabled = false
             Toast.makeText(applicationContext, "선택된 숫자는 $finalselection",Toast.LENGTH_LONG).show()
-
+            var arrow= finalselection.split(","," ")
+            var abcde = 36/arrow.size
+            prizeText = "배당률 : ${abcde} 배"
+            infoText!!.text = prizeText
         }
         builder.setNegativeButton("Cancel"){
             dialog, p1 -> dialog.cancel()
         }
         val alertDialog : AlertDialog = builder.create()
         alertDialog.show()
-
     }
 
     /**
@@ -124,28 +179,32 @@ class RouletteActivity : AppCompatActivity() ,Animation.AnimationListener{
         // Final point of rotation defined right here
 
         val end = Math.floor(Math.random() * 360).toInt() // random : 0-360
-        println("asasasasasasasasa : $end")
         val numOfPrizes = prizes.size // quantity of prize
         val shift = 0 // shit where the arrow points
-        val prizeIndex = (shift + end) *numOfPrizes / 360
-        println("asasasasasasasasa : $shift  $prizeIndex")
-        var a =finalselection.toInt()
-        var num=0
-        var correct = 0
-        while(a>0){
-            if((a%10)==prizes[prizeIndex]){
+        prizeIndex = (shift + end+ 4.86486486) *numOfPrizes / 360
+        println("asasasasasasasasa : $end  $prizeIndex")
+        correct = 0
+        var arr= finalselection.split(","," ")
+        println("asasasasasasasasa : $arr  ${arr.size}")
+        arrlength = arr.size
+        for(i in 0 until arr.size){
+            println("asasasasasasasasa : ${prizes[prizeIndex.toInt()]} ${arr[i]}")
+            if((arr[i].toInt())==prizes[prizeIndex.toInt()]){
                 correct+=1
             }
-            a=a/10
-            num+=1
         }
-        if(correct==1){
-            prizeText = "Number : ${prizes[prizeIndex]} , YOU WIN"
-            //돈추가해주기
-        }
-        else{
-            prizeText = "Number : ${prizes[prizeIndex]}, YOU LOSE"
-        }
+
+
+//        var a =finalselection.toInt()
+//        var num=0
+//        var correct = 0
+//        while(a>0){
+//            if((a%10)==prizes[prizeIndex]){
+//                correct+=1
+//            }
+//            a=a/10
+//            num+=1
+//        }
         val rotateAnim = RotateAnimation(
             0f,mSpinRevolution + end,
             Animation.RELATIVE_TO_SELF,
@@ -165,8 +224,30 @@ class RouletteActivity : AppCompatActivity() ,Animation.AnimationListener{
     }
 
     override fun onAnimationEnd(p0: Animation?) {
+        if(correct==1){
+            prizeText = "Number : ${prizes[prizeIndex.toInt()]} , YOU WIN"
+            abc+= (betmoney * (36/arrlength))
+            val url6 = "${IP.getIP()}/player/name/${Global.currentPlayerName}/chip/$abc"
+            queue = Volley.newRequestQueue(this)
+            val stringRequest = StringRequest(Request.Method.POST,
+                url6,
+                { response ->
+                    if (response == "0") {
+                        roulettemoney.text = abc.toString()
+                    }
+                },
+                { error -> Log.d("why?", error.message.toString()) }
+            )
+            stringRequest.setShouldCache(false)
+            queue.add(stringRequest)
+        }
+
+        else{
+            prizeText = "Number : ${prizes[prizeIndex.toInt()]}, YOU LOSE"
+        }
         infoText!!.text = prizeText
         powerButton?.isEnabled = false
+        BetCoinBtn?.isEnabled = false
         BetBtn?.isEnabled = true
     }
 
