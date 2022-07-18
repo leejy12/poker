@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.google.android.material.slider.Slider
 import okhttp3.*
 import org.json.JSONObject
@@ -20,6 +21,7 @@ class PokerActivity : AppCompatActivity() {
     private lateinit var gameId: String
     private var player = 0 // am I player 1 or player 2?
     private var myTurn = false
+    private var dealer = 0
 
     private var myStack = 0
     private var opStack = 0
@@ -86,6 +88,12 @@ class PokerActivity : AppCompatActivity() {
                         searchGameDlg.show()
                     }
                 }
+                "exit" -> {
+                    runOnUiThread {
+                        Toast.makeText(applicationContext, "Opponent left the game", Toast.LENGTH_LONG).show()
+                        finish()
+                    }
+                }
                 "gameStart" -> {
                     runOnUiThread {
                         if (searchGameDlg.isShowing)
@@ -94,7 +102,8 @@ class PokerActivity : AppCompatActivity() {
                         gameId = msg.getString("gameId")
 
                         player = msg.getInt("player")
-                        myTurn = player == 1
+                        dealer = msg.getInt("dealer")
+                        myTurn = player == dealer
 
                         raiseBtn.text = "RAISE"
                         checkCallBtn.text = "CHECK"
@@ -149,14 +158,13 @@ class PokerActivity : AppCompatActivity() {
                         myBet = moveResult.getInt("bet$player")
                         opBet = moveResult.getInt("bet${3 - player}")
 
+                        myStackTextView.text = myStack.toString()
+                        opStackTextView.text = opStack.toString()
+                        myBetTextView.text = myBet.toString()
+                        opBetTextView.text = opBet.toString()
+
                         // betting is not over
                         if (status == 0) {
-                            // update UI elements
-                            myStackTextView.text = myStack.toString()
-                            opStackTextView.text = opStack.toString()
-                            myBetTextView.text = myBet.toString()
-                            opBetTextView.text = opBet.toString()
-
                             if (player != lastPlayer) {
                                 myTurn = true
                                 foldBtn.isEnabled = true
@@ -175,34 +183,43 @@ class PokerActivity : AppCompatActivity() {
                         // betting is over. Showdown!
                         else {
                             // reveal my card
-                            myCardPaper.setImageResource(R.drawable.card_front)
+                            println("status: $status")
+                            myCardPaper.setBackgroundResource(R.drawable.card_front)
                             myCardTextView.visibility = View.VISIBLE
                         }
                     }
                 }
                 "newGame" -> {
                     runOnUiThread {
-                        // show dialog here?
-                        Thread.sleep(2000)
-                        player = 3 - player
+                        // hide both cards
+                        myCardTextView.visibility = View.INVISIBLE
+                        myCardPaper.setBackgroundResource(R.drawable.card_back)
+                        println("new game!")
 
-                        if (player == 1) {
+                        // extract json values
+                        dealer = msg.getInt("dealer")
+                        myCard = msg.getString("card")
+                        myBet = msg.getInt("bet")
+                        myStack = msg.getInt("stack")
+                        opCard = msg.getJSONObject("opponent").getString("card")
+                        opBet = msg.getJSONObject("opponent").getInt("bet")
+                        opStack = msg.getJSONObject("opponent").getInt("stack")
+
+                        // set up UI
+                        if (player == dealer) {
+                            myTurn = true
                             checkCallBtn.isEnabled = true
                             checkCallBtn.text = "CHECK"
                             foldBtn.isEnabled = true
                             raiseBtn.isEnabled = true
                         }
                         else {
+                            myTurn = false
                             checkCallBtn.isEnabled = false
                             foldBtn.isEnabled = false
                             raiseBtn.isEnabled = false
                         }
 
-                        myCard = msg.getJSONObject("cards").getString("$player")
-                        opCard = msg.getJSONObject("cards").getString("${3 - player}")
-
-                        myCardTextView.visibility = View.INVISIBLE
-                        myCardPaper.setImageResource(R.drawable.card_back)
                         cardToTextView(myCardTextView, myCard)
                         cardToTextView(opCardTextView, opCard)
 
@@ -217,7 +234,6 @@ class PokerActivity : AppCompatActivity() {
 
         override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
             webSocket.close(1000, reason)
-            // TODO: make POST request to update chip_count
         }
     }
 
@@ -237,8 +253,6 @@ class PokerActivity : AppCompatActivity() {
         opBetTextView = findViewById(R.id.opBet)
 
         myCardPaper = findViewById(R.id.myCardPaper)
-        myCardPaper.background = null
-        myCardPaper.setImageResource(R.drawable.card_back)
 
         raiseBtn = findViewById(R.id.raiseBtn)
         checkCallBtn = findViewById(R.id.checkCallBtn)
@@ -251,6 +265,7 @@ class PokerActivity : AppCompatActivity() {
         val cancelSearchButton = searchGameDlg.findViewById<Button>(R.id.cancelSearchButton)
         cancelSearchButton.setOnClickListener {
             searchGameDlg.dismiss()
+            finish()
         }
 
         raiseDlg = Dialog(this)
@@ -296,6 +311,7 @@ class PokerActivity : AppCompatActivity() {
     override fun onDestroy() {
         runOnUiThread {
             super.onDestroy()
+            ws.send("{ \"gameId\": \"$gameId\", \"player\": $player, \"action\": \"EXIT\" }")
             ws.close(1000, Global.currentPlayerName)
         }
     }
