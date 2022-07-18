@@ -9,6 +9,7 @@ import android.widget.EditText
 import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.RequestQueue
+import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 
@@ -40,23 +41,24 @@ class LoginActivity : AppCompatActivity() {
                 println(url)
                 queue = Volley.newRequestQueue(this)
 
-                val stringRequest = StringRequest(Request.Method.POST,
+                val stringRequest = JsonArrayRequest(Request.Method.POST,
                     url,
+                    null,
                     { response ->
-                        println(response)
-                        if (response == "0") {
-                            // 로그인 성공
-                            Global.currentPlayerName = name
-                            val start = Intent(this, MainActivity::class.java)
-                            startActivity(start)
-                            finish()
-                        }
-                        else {
-                            // 로그인 실패
+                        Global.currentPlayerName = response.getJSONObject(0).getString("name")
+                        Global.currentPlayerMoney = response.getJSONObject(0).getInt("chip_count")
+                        val start = Intent(this, MainActivity::class.java)
+                        startActivity(start)
+                        finish()
+                    },
+                    { error ->
+                        if (error.networkResponse.statusCode == 404) {
                             Toast.makeText(this, "Incorrect name or password!", Toast.LENGTH_SHORT).show()
                         }
-                    },
-                    { error -> Log.d("why?", error.message.toString()) }
+                        else {
+                            Toast.makeText(this, "Internal Server Error", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 )
 
                 stringRequest.setShouldCache(false)
