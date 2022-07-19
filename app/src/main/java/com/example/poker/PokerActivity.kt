@@ -27,6 +27,7 @@ class PokerActivity : AppCompatActivity() {
     private var opStack = 0
     private var myBet = 0
     private var opBet = 0
+    private var startStack = Global.currentPlayerMoney
     private lateinit var myCard: String
     private lateinit var opName: String
     private lateinit var opCard: String
@@ -51,12 +52,13 @@ class PokerActivity : AppCompatActivity() {
 
     private lateinit var searchGameDlg: Dialog
     private lateinit var raiseDlg: Dialog
+    private lateinit var gameOverDlg: Dialog
 
     // WebSocket stuff
     private lateinit var client: OkHttpClient
     private lateinit var ws: WebSocket
 
-    private val suitToSymbol: Map<String, String> = mapOf("S" to "♠", "D" to "◆", "H" to "♥", "C" to "♣")
+    private val suitToSymbol: Map<String, String> = mapOf("S" to "♠", "H" to "♥")
     private fun numToStr(num: Int): String {
         return if (num == 1)
             "A"
@@ -68,8 +70,8 @@ class PokerActivity : AppCompatActivity() {
         val sp = card.split("-")
         val cardNum = sp[0].toInt()
         when (sp[1]) {
-            "S", "C" -> tv.setTextColor(applicationContext.getColor(R.color.black))
-            "H", "D" -> tv.setTextColor(applicationContext.getColor(R.color.red))
+            "S" -> tv.setTextColor(applicationContext.getColor(R.color.black))
+            "H" -> tv.setTextColor(applicationContext.getColor(R.color.red))
         }
         tv.text = "${numToStr(cardNum)}${suitToSymbol[sp[1]]}"
     }
@@ -90,8 +92,16 @@ class PokerActivity : AppCompatActivity() {
                 }
                 "exit" -> {
                     runOnUiThread {
-                        Toast.makeText(applicationContext, "Opponent left the game", Toast.LENGTH_LONG).show()
-                        finish()
+                        val earn = myStack - startStack
+                        if (earn >= 0) {
+                            gameOverDlg.findViewById<TextView>(R.id.diff).setTextColor(applicationContext.getColor(R.color.green))
+                        }
+                        else {
+                            gameOverDlg.findViewById<TextView>(R.id.diff).setTextColor(applicationContext.getColor(R.color.red))
+                        }
+                        gameOverDlg.findViewById<TextView>(R.id.diff).text = "${if (earn >= 0) "+" else ""}$earn"
+                        gameOverDlg.findViewById<TextView>(R.id.stackChange).text = "$startStack → $myStack"
+                        gameOverDlg.show()
                     }
                 }
                 "gameStart" -> {
@@ -172,18 +182,23 @@ class PokerActivity : AppCompatActivity() {
                                     checkCallBtn.text = "CALL"
                                 checkCallBtn.isEnabled = true
                                 raiseBtn.isEnabled = true
+                                foldBtn.setTextColor(applicationContext.getColor(R.color.white))
+                                checkCallBtn.setTextColor(applicationContext.getColor(R.color.white))
+                                raiseBtn.setTextColor(applicationContext.getColor(R.color.white))
                             }
                             else {
                                 // It is not my turn, so deactivate all buttons
                                 foldBtn.isEnabled = false
                                 checkCallBtn.isEnabled = false
                                 raiseBtn.isEnabled = false
+                                foldBtn.setTextColor(applicationContext.getColor(R.color.gray))
+                                checkCallBtn.setTextColor(applicationContext.getColor(R.color.gray))
+                                raiseBtn.setTextColor(applicationContext.getColor(R.color.gray))
                             }
                         }
                         // betting is over. Showdown!
                         else {
                             // reveal my card
-                            println("status: $status")
                             myCardPaper.setBackgroundResource(R.drawable.card_front)
                             myCardTextView.visibility = View.VISIBLE
                         }
@@ -212,12 +227,18 @@ class PokerActivity : AppCompatActivity() {
                             checkCallBtn.text = "CHECK"
                             foldBtn.isEnabled = true
                             raiseBtn.isEnabled = true
+                            foldBtn.setTextColor(applicationContext.getColor(R.color.white))
+                            checkCallBtn.setTextColor(applicationContext.getColor(R.color.white))
+                            raiseBtn.setTextColor(applicationContext.getColor(R.color.white))
                         }
                         else {
                             myTurn = false
                             checkCallBtn.isEnabled = false
                             foldBtn.isEnabled = false
                             raiseBtn.isEnabled = false
+                            foldBtn.setTextColor(applicationContext.getColor(R.color.gray))
+                            checkCallBtn.setTextColor(applicationContext.getColor(R.color.gray))
+                            raiseBtn.setTextColor(applicationContext.getColor(R.color.gray))
                         }
 
                         cardToTextView(myCardTextView, myCard)
@@ -268,6 +289,15 @@ class PokerActivity : AppCompatActivity() {
             finish()
         }
 
+        gameOverDlg = Dialog(this)
+        gameOverDlg.setContentView(R.layout.game_end_dialog)
+        gameOverDlg.setCanceledOnTouchOutside(false)
+        val closeButton = gameOverDlg.findViewById<Button>(R.id.closeButton)
+        closeButton.setOnClickListener {
+            gameOverDlg.dismiss()
+            finish()
+        }
+
         raiseDlg = Dialog(this)
         raiseDlg.setContentView(R.layout.raise_dialog)
         val slider = raiseDlg.findViewById<Slider>(R.id.slider)
@@ -279,7 +309,7 @@ class PokerActivity : AppCompatActivity() {
 
         raiseBtn.setOnClickListener {
             slider.valueFrom = min((2 * opBet).toFloat(), myStack.toFloat())
-            slider.valueTo = myStack.toFloat()
+            slider.valueTo = min(myStack.toFloat(), opStack.toFloat())
             slider.value = slider.valueFrom
             raiseDlg.show()
         }
@@ -311,7 +341,6 @@ class PokerActivity : AppCompatActivity() {
     override fun onDestroy() {
         runOnUiThread {
             super.onDestroy()
-            ws.send("{ \"gameId\": \"$gameId\", \"player\": $player, \"action\": \"EXIT\" }")
             ws.close(1000, Global.currentPlayerName)
         }
     }

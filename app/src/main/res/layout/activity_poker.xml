@@ -88,6 +88,7 @@
         <TextView
             android:id="@+id/myStack"
             android:layout_width="0dp"
+            android:textSize="24sp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
@@ -98,6 +99,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_margin="4dp"
+            android:backgroundTint="@color/black"
+            android:textColor="@color/white"
             android:text="RAISE" />
 
         <Button
@@ -105,12 +108,16 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_margin="4dp"
+            android:backgroundTint="@color/black"
+            android:textColor="@color/white"
             android:text="CALL " />
 
         <Button
             android:id="@+id/foldBtn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:backgroundTint="@color/black"
+            android:textColor="@color/white"
             android:layout_margin="4dp"
             android:text="FOLD" />
 
@@ -122,7 +129,7 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textSize="32sp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -133,7 +140,7 @@
         android:layout_height="wrap_content"
         android:text="TextView"
         android:textSize="32sp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="30dp"
         app:layout_constraintBottom_toTopOf="@+id/myCardPaper"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

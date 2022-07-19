@@ -7,12 +7,14 @@
 
     <TextView
         android:id="@+id/raiseAmount"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="40dp"
+        android:textAlignment="center"
         android:textSize="30sp"
-        android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@+id/slider" />
+        app:layout_constraintBottom_toTopOf="@+id/slider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.slider.Slider
         android:id="@+id/slider"
