@@ -1,5 +1,6 @@
 package com.example.poker
 import android.app.Dialog
+import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -163,11 +164,13 @@ class RouletteActivity : AppCompatActivity() ,Animation.AnimationListener{
     }
 
     fun startSpinner() {
+        val mediaPlayer = MediaPlayer.create(this, R.raw.roulette)
+        mediaPlayer.start()
         mSpinRevolution = 3600f
-        mSpinDuration = 5000
+        mSpinDuration = 10000
 
         if (count >= 30){
-            mSpinDuration = 1000
+            mSpinDuration = 10000
             mSpinRevolution = (3600 * 2).toFloat()
         }
         if (count >= 60){
