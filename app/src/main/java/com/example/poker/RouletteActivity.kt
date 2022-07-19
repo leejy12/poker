@@ -142,7 +142,7 @@ class RouletteActivity : AppCompatActivity() ,Animation.AnimationListener{
             Toast.makeText(applicationContext, "선택된 숫자는 $finalselection",Toast.LENGTH_LONG).show()
             var arrow= finalselection.split(","," ")
             var abcde = 36/arrow.size
-            prizeText = "배당률 : ${abcde} 배"
+            prizeText = "선택 : $finalselection     배당률 : ${abcde} 배"
             infoText!!.text = prizeText
         }
         builder.setNegativeButton("Cancel"){

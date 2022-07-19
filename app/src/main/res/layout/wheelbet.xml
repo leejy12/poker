@@ -5,14 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/BetAmount"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="40dp"
-        android:textSize="30sp"
-        android:gravity="center"
-        app:layout_constraintBottom_toTopOf="@+id/Betslider" />
+        android:layout_height="100dp"
+        app:layout_constraintBottom_toTopOf="@+id/Betslider"
+        >
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"></View>
+        <TextView
+            android:id="@+id/BetAmount"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:textSize="30sp"
+            android:gravity="center"
+            />
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"></View>
+    </LinearLayout>
 
     <com.google.android.material.slider.Slider
         android:id="@+id/Betslider"
