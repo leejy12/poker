@@ -23,18 +23,21 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".RouletteActivity"
-            android:theme="@style/FullScreenTheme"
+            android:name=".RankActivity"
             android:exported="false" />
+        <activity
+            android:name=".RouletteActivity"
+            android:exported="false"
+            android:theme="@style/FullScreenTheme" />
         <activity
             android:name=".SlotActivity"
-            android:theme="@style/FullScreenTheme"
             android:exported="false"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape"
+            android:theme="@style/FullScreenTheme" />
         <activity
             android:name=".PokerActivity"
-            android:theme="@style/FullScreenTheme"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/FullScreenTheme" />
         <activity
             android:name=".SignupActivity"
             android:exported="false" />
@@ -46,8 +49,8 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:theme="@style/FullScreenTheme"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/FullScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
