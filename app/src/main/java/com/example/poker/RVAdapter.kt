@@ -28,7 +28,9 @@ class RVAdapter(val context : Context, var List : MutableList<RankContents>): Re
         fun bindItems(item : RankContents){
             val rv_img = itemView.findViewById<ImageView>(R.id.rvImageArea)
             val rv_text = itemView.findViewById<TextView>(R.id.rvTextArea)
+            val rv_value = itemView.findViewById<TextView>(R.id.rvTextvalue)
             rv_text.text= item.title
+            rv_value.text = item.value
             Glide.with(context)
                 .load(item.Image)
                 .into(rv_img)
