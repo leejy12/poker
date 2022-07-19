@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         SliderItems.add(SliderItem(R.drawable.indian, 1))
         SliderItems.add(SliderItem(R.drawable.slot,2))
         SliderItems.add(SliderItem(R.drawable.roulette,3))
-        SliderItems.add(SliderItem(R.drawable.poker,4))
+        SliderItems.add(SliderItem(R.drawable.ranking,4))
         SliderAdapter = SliderAdapter(SliderItems)
         viewPager2.adapter = SliderAdapter
         SliderAdapter.itemClick = object : SliderAdapter.ItemClick{
@@ -55,6 +55,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 else if(SliderItems[position].num == 3){
                     val intent= Intent(this@MainActivity, RouletteActivity::class.java)
+                    startActivity(intent)
+                }
+                else if(SliderItems[position].num == 4){
+                    val intent= Intent(this@MainActivity, RankActivity::class.java)
                     startActivity(intent)
                 }
             }
