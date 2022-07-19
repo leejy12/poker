@@ -17,14 +17,15 @@
 
 
     <androidx.viewpager2.widget.ViewPager2
-        app:layout_constraintTop_toBottomOf="@id/top_fragment"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         android:id="@+id/viewPagerImageSlider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/startbutton"
         android:paddingStart="80dp"
         android:paddingEnd="80dp"
-        android:visibility="gone"
+        android:foregroundGravity="center"
+        android:visibility="visible"
         />
     <Button
         android:id="@+id/startbutton"
@@ -34,17 +35,31 @@
         android:layout_width="match_parent"
         android:visibility="gone"
         android:layout_height="70dp"/>
+
+    <ImageView
+        android:background="@color/black"
+        android:id="@+id/firstimage"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:src="@drawable/casino_real"
+        app:layout_constraintBottom_toTopOf="@id/develop"
+        app:layout_constraintTop_toBottomOf="@id/top_fragment"
+        />
+
     <ImageView
         android:id="@+id/ImageView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        app:layout_constraintBottom_toTopOf="@id/develop"
         app:layout_constraintTop_toBottomOf="@id/top_fragment"
-        android:src="@drawable/poker"
+        android:layout_height="0dp"
         android:gravity="center"
-        android:visibility="gone"
+
         />
     <TextView
         android:id="@+id/develop"
+        android:background="@color/black"
+        android:textColor="@color/white"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:gravity="center"

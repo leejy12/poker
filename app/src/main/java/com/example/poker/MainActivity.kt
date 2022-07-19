@@ -23,16 +23,19 @@ class MainActivity : AppCompatActivity() {
     lateinit var viewPager2: ViewPager2
     lateinit var SliderAdapter: SliderAdapter
     private val SliderItems = mutableListOf<SliderItem>()
-
+    private lateinit var realImage : ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        realImage = findViewById(R.id.firstimage)
         viewPager2 = findViewById(R.id.viewPagerImageSlider)
         if (Global.currentPlayerName != null) {
             viewPager2.visibility = View.VISIBLE
+            realImage.visibility = View.GONE
         }
         else {
             viewPager2.visibility = View.GONE
+            realImage.visibility = View.VISIBLE
         }
         SliderItems.add(SliderItem(R.drawable.indian, 1))
         SliderItems.add(SliderItem(R.drawable.slot,2))

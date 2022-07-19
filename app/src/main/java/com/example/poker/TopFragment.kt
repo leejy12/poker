@@ -11,6 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.viewpager2.widget.ViewPager2
 import com.android.volley.Request
@@ -26,10 +28,13 @@ class TopFragment: Fragment() {
     private lateinit var registerButton: Button
     private lateinit var myInfoButton: Button
     private lateinit var logoutButton: Button
+    private lateinit var username : TextView
+    var text1 = "CASINO"
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         val view: View = inflater.inflate(R.layout.fragment_top, container, false)
 
         // initialize views
+        username = view.findViewById(R.id.username)
         loginButton = view.findViewById<Button>(R.id.toLoginButton)
         registerButton = view.findViewById<Button>(R.id.toRegisterButton)
         myInfoButton = view.findViewById<Button>(R.id.toMyInfoButton)
@@ -77,6 +82,7 @@ class TopFragment: Fragment() {
             registerButton.visibility = View.GONE
             myInfoButton.visibility = View.VISIBLE
             logoutButton.visibility = View.VISIBLE
+            username.text = Global.currentPlayerName
 
         }
         else {
@@ -84,6 +90,7 @@ class TopFragment: Fragment() {
             registerButton.visibility = View.VISIBLE
             myInfoButton.visibility = View.GONE
             logoutButton.visibility = View.GONE
+            username.text = text1
         }
 
         return view
