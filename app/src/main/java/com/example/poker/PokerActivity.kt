@@ -120,11 +120,18 @@ class PokerActivity : AppCompatActivity() {
                         if (myTurn) {
                             checkCallBtn.isEnabled = true
                             raiseBtn.isEnabled = true
+                            foldBtn.setTextColor(applicationContext.getColor(R.color.white))
+                            checkCallBtn.setTextColor(applicationContext.getColor(R.color.white))
+                            raiseBtn.setTextColor(applicationContext.getColor(R.color.white))
+                            Toast.makeText(applicationContext, "Your turn!", Toast.LENGTH_SHORT).show()
                         }
                         else {
                             checkCallBtn.isEnabled = false
                             foldBtn.isEnabled = false
                             raiseBtn.isEnabled = false
+                            foldBtn.setTextColor(applicationContext.getColor(R.color.gray))
+                            checkCallBtn.setTextColor(applicationContext.getColor(R.color.gray))
+                            raiseBtn.setTextColor(applicationContext.getColor(R.color.gray))
                         }
 
                         myCard = msg.getString("card")
@@ -185,6 +192,7 @@ class PokerActivity : AppCompatActivity() {
                                 foldBtn.setTextColor(applicationContext.getColor(R.color.white))
                                 checkCallBtn.setTextColor(applicationContext.getColor(R.color.white))
                                 raiseBtn.setTextColor(applicationContext.getColor(R.color.white))
+                                Toast.makeText(applicationContext, "Your turn!", Toast.LENGTH_SHORT).show()
                             }
                             else {
                                 // It is not my turn, so deactivate all buttons
@@ -230,6 +238,7 @@ class PokerActivity : AppCompatActivity() {
                             foldBtn.setTextColor(applicationContext.getColor(R.color.white))
                             checkCallBtn.setTextColor(applicationContext.getColor(R.color.white))
                             raiseBtn.setTextColor(applicationContext.getColor(R.color.white))
+                            Toast.makeText(applicationContext, "Your turn!", Toast.LENGTH_SHORT).show()
                         }
                         else {
                             myTurn = false
